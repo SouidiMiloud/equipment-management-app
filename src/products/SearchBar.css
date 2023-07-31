@@ -1,0 +1,39 @@
+.search-bar-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+form {
+    display: flex;
+    align-items: center;
+    border: 2px solid #007bff;
+    border-radius: 30px;
+    overflow: hidden;
+}
+
+input {
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    width: 300px;
+    outline: none;
+}
+
+input::placeholder {
+    color: #999;
+}
+
+button {
+    background: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background: #0056b3;
+}

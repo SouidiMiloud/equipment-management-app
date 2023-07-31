@@ -1,0 +1,50 @@
+
+    
+ 
+
+.hero-content {
+    position: relative;
+    bottom: 270px;
+    
+    
+    
+    text-align: center;
+    z-index: 1;
+}
+
+.hero-content h1 {
+    font-family: Arial, sans-serif;
+    font-size: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    
+    margin-bottom: 1rem;
+}
+
+.hero-content p {
+    font-size: 1.30rem;
+    font-family: Arial, sans-serif;
+    margin-bottom: 2rem;
+}
+
+.cta-button {
+    padding: 0.75rem 1rem;
+    margin: 6px;
+    font-size: 1.5rem;
+    background-color: rgba(50, 231, 255, 0.8);
+    color: #ffffff;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    width: 6%;
+}
+.cta-button:hover  {
+        padding: 0.75rem 1.5rem;
+        font-size: 1.25rem;
+        background-color: rgba(6, 59, 156, 0.8);
+        color: #ffffff;
+        border: none;
+        border-radius: 30px;
+        cursor: pointer;
+
+}
