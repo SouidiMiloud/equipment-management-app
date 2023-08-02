@@ -14,12 +14,12 @@ function Login(){
                     Connectez-vous
                 </div>
                 <form class="p-3 mt-3">
-                    <div class="form-field">
-                        
+                    <div class="form-field d-flex align-items-center">
+                        <span class="far fa-user"></span>
                         <input type="email" name="userName" id="userName" placeholder="Username"/>
                     </div>
-                    <div class="form-field">
-                        
+                    <div class="form-field d-flex align-items-center">
+                        <span class="fas fa-key"></span>
                         <input type="password" name="password" id="pwd" placeholder="Password"/>
                     </div>
                     <button class="btn mt-3 pt-3"><h4>se connecter</h4></button>

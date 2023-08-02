@@ -15,7 +15,8 @@ body {
 
 .logo {
   width: 90px;
-  
+  position: fixed;
+  top: 100px;
 }
 
 .logo img {
@@ -42,6 +43,7 @@ body {
 
 .wrapper .form-field input {
   width: 100%;
+  display: block;
   border: none;
   outline: none;
   background: none;

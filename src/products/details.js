@@ -2,7 +2,6 @@ import React from "react";
 import Navbar from "../Navbar";
 import "./details.css"
 import arduino from "../images/arduino.jpg"
-import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 
 function Details(){
     

@@ -7,12 +7,11 @@ import MailConfirmation from './mailConfirmation'
 import Contact from './contact';
 import About from './about';
 import Materials from './products/materials';
-import Details from "./products/details";
 import ProductListing from './products/productlisting';
 
 function App(){
   return(
-    /*<BrowserRouter>
+    <BrowserRouter>
       <Routes>
         <Route path="/" element={<HomeComponent/>}></Route>
         <Route path="/login" element ={<Login/>}></Route>
@@ -23,9 +22,7 @@ function App(){
         <Route path="/materials" element={<Materials/>}></Route>
         <Route path="/ProductListing" element={<ProductListing />}></Route>
       </Routes>
-    </BrowserRouter>*/
-
-    <Details/>
+    </BrowserRouter>
         
   );
 }
