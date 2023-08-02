@@ -1,0 +1,51 @@
+.product_img{
+    width: 50%;
+    height: 100%;
+}
+
+.description{
+    width: 50%;
+    height: 470px;
+    text-align: center;
+    position: relative;
+    top: 20px;
+}
+
+.label{
+    font-size: 18px;
+    margin-right: 5px;
+    position: absolute;
+    left: 0;
+}
+
+.reserv_date{
+    width: 250px;
+    height: 40px;
+    border: solid;
+    border-radius: 10px;
+    border-width: 2px;
+    border-color: blue;
+    position: absolute;
+    right: 0;
+}
+
+.form_div{
+    width: 400px;
+    position: relative;
+    margin-bottom: 50px;
+}
+
+.form_btn{
+    width: 300px;
+    height: 40px;
+    background-color: blue;
+    color: white;
+    border-radius: 20px;
+    margin-top: 50px;
+}
+
+.text_desc{
+    margin: 20px;
+    width: 500px;
+    height: 200px;
+}
