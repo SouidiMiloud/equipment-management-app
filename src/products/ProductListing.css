@@ -1,0 +1,124 @@
+.product-listing-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+.category-navigation{
+    padding-bottom: 10px;
+}
+.category-navigation ul {
+    padding-left: 100px;
+    list-style: none;
+    display: flex;
+    gap: 10px;
+}
+
+.category-navigation li {
+    cursor: pointer;
+    padding: 8px 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background: #fff;
+}
+
+.category-navigation li.active {
+    background: #007bff;
+    color: #fff;
+    
+}
+
+.product-list {
+    display: grid;
+    grid-template-columns: repeat(3, 300px );
+    gap: 20px;
+    padding-left: 100px;
+}
+
+.product-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+.product-card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transform: scale(1.05);
+
+}
+.availability-badge {
+    position: relative;
+    left: 4px;top: 3px;
+    z-index: 1;
+    
+    right: 10px;
+    
+    
+    color: #fff;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 14px;
+} 
+
+.availability-badge.available {
+    background-color: #4caf50;
+    color: #fff;
+}
+
+.availability-badge.not-available {
+    background-color: #f44336;
+    color: #fff;
+}
+
+.product-card img {
+    width: 100%;
+    height: 50%;
+    object-fit: contain;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.product-card h3 {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.product-card p {
+    margin: 0;
+    margin-bottom: 5px;
+}
+.star {
+    font-size: 12px;
+    color: rgb(243, 181, 25);
+    margin-top: 5px;
+}
+.det{
+    position: relative;
+    top: 20px;
+        
+    margin: 0
+}
+hr {
+
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    margin-left: auto;
+    margin-right: auto;
+    border-style: inset;
+    border-width: 1px;
+    padding: 0;
+}
+.btnn{
+    position: relative;
+    top: 12px;
+        display: inline-block;
+        font-size: 16px;
+        font-weight: bold;
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        transition: background-color 0.3s, transform 0.2s;
+}
