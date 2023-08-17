@@ -1,0 +1,148 @@
+.banner {
+    width: 100%;
+    height: 100vh;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url(../Assets/images/bggg.jpg);
+    background-size: cover;
+    background-position: center;
+    position: fixed;
+}
+
+.container {
+    position: relative;
+    top: 3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container form {
+    
+    width: 70%;
+    height: 100%;
+    justify-content: center;
+    box-shadow: 20px 20px 50px rgba(0, 0, 0, 0.5);
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px);
+    flex-wrap: wrap;
+
+}
+.frm{
+display: grid;
+grid-template-columns: 1fr 1fr;
+margin-left: 150px;
+width: 100%;
+    
+}
+.inputbox{
+    width: calc(100% / 2 - 20px);
+    flex-wrap: wrap;
+    justify-content:space-between;
+    margin: 5px 0 12px 0;
+     
+}
+.container form h2 {
+    color: #fff;
+    font-weight: 500;
+    margin-top: 2rem;
+    text-align: center;
+    padding-bottom: 2rem;
+
+}
+
+.inputbox input {
+    width: 100%;
+    height: 4rem;
+    padding-left: 10px;
+    
+    margin-right: 5px;
+    outline: none;
+    border: none;
+    font-size: 15px;
+    color: #fff;
+    margin-bottom: 10px;
+    background: none;
+    border-bottom: 2px solid #fff;
+}
+
+.dropdown{
+    width: 100%;
+    height: 2.5rem;
+    padding-left: 10px;
+    
+    margin-right: 5px;
+    outline: none;
+    border: none;
+    font-size: 15px;
+    color: #fff;
+    margin-bottom: 10px;
+    background: none;
+    border-bottom: 2px solid #fff;
+}
+.dropbtn{
+    width: 100%;
+    height: 2.5rem;
+    font-size: 16px;
+    background: none;
+    border: none;
+    color: white;
+    font-style: italic;
+}
+.dropbtn:hover{
+    cursor: pointer;
+}
+
+.categoryOptions{
+    width: 12rem;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.categoryOptions button{
+    width: 10rem;
+    height: 2.2rem;
+    background-color: white;
+    z-index: 1;
+    border: none;
+    margin-top: 0.05rem;
+    border-radius: 2px;
+}
+.categoryOptions button:hover{
+    background-color: #bbb;
+    cursor: pointer;
+}
+
+.inputbox input::placeholder {
+    color: #ddd;
+
+}
+.details{
+    font-weight:bolder;
+    color: #ffffff9d;
+}
+.btn {
+    width: 18rem;
+    height: 3rem;
+    background-color: #fff;
+    border: none;
+    outline: none;
+    border-radius: 15px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+    cursor: pointer;
+    font-size: 16px;
+    color: #fff;
+    font-weight: 600;
+    margin-top: 3rem;
+    margin-left: 20rem;
+    background: linear-gradient(135deg, #c7e671, #2913ba);
+
+}
+.btn:hover{
+    background: linear-gradient(135deg, #2913ba , #c7e671);
+}
+
+.error_msg{
+    color: red;
+    font-size: 12px;
+}
