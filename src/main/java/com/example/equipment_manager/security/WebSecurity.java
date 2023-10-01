@@ -45,15 +45,12 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .authenticationEntryPoint((request, response, ex)->{
                     response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ex.getMessage());
                 });
-        http.authorizeRequests().antMatchers("/register").permitAll()
+        http.authorizeRequests().antMatchers("/register", "/wsocket/**").permitAll()
                 .antMatchers("/authentication/login").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .cors();
-                  //      .and()
-                //.formLogin().loginPage("/authentication/login").permitAll();
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
-
     }
 
     @Override

@@ -1,8 +1,6 @@
 package com.example.equipment_manager.equipment;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -21,6 +19,7 @@ public class Reservation {
     private LocalDateTime endsAt;
     @Enumerated(EnumType.STRING)
     private ReservationState reservationState;
+    private String message;
 
     public Reservation(){
 
@@ -28,13 +27,13 @@ public class Reservation {
         time = LocalDateTime.now();
     }
 
-    public Reservation(Integer equipmentId, Integer userId, LocalDateTime startsAt, LocalDateTime endsAt) {
-
+    public Reservation(Integer equipmentId, Integer userId, LocalDateTime time, LocalDateTime startsAt, LocalDateTime endsAt, ReservationState reservationState, String message) {
         this.equipmentId = equipmentId;
         this.userId = userId;
+        this.time = time;
         this.startsAt = startsAt;
         this.endsAt = endsAt;
-        reservationState = ReservationState.UNCHECKED;
-        time = LocalDateTime.now();
+        this.reservationState = reservationState;
+        this.message = message;
     }
 }

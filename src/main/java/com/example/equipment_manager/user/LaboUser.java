@@ -32,6 +32,7 @@ public class LaboUser implements UserDetails {
     private String password;
     @Enumerated(EnumType.STRING)
     private LaboUserRole userRole;
+    private Integer unreadNotifications;
 
 
     public LaboUser(String first_name, String last_name, Level level, Field field, String email, String phone, String password, LaboUserRole userRole) {
@@ -43,6 +44,7 @@ public class LaboUser implements UserDetails {
         this.level = level;
         this.password = password;
         this.userRole = userRole;
+        unreadNotifications = 0;
     }
 
     @Override
