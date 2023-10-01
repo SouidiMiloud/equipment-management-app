@@ -6,7 +6,7 @@ import styles from "../../styles/reservations.module.css"
 const StudentReservations = ()=>{
 
     const [reservations, setReservations] = useState([]);
-    const [notif, setNotif] = useState({});
+    const [message, setMessage] = useState('');
 
     useEffect(()=>{
         fetch(`http://localhost:8090/getUserReservations`, {
@@ -22,31 +22,7 @@ const StudentReservations = ()=>{
         })
         .then(data=>setReservations(data));
 
-        fetch('http://localhost:8090/getNotification', {
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${localStorage.getItem('jwt')}`
-            }, 
-            method: 'GET'
-        })
-        .then((response)=>{
-            if(response.status === 200)
-                return response.json();
-        })
-        .then(data=>setNotif(data));
     }, []);
-
-    const ok_clicked = ()=>{
-        fetch('http://localhost:8090/removeNotif', {
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${localStorage.getItem('jwt')}`
-            },
-            method: 'POST',
-            body: JSON.stringify({notifId: notif.id})
-        })
-        setNotif({});
-    }
 
     return(
         <>
@@ -63,7 +39,9 @@ const StudentReservations = ()=>{
             </thead>
             <tbody>
             {reservations && reservations.map(reservation=>(
-                <tr>
+                <tr onMouseEnter={()=>{setMessage(reservation.message)}}
+                    onMouseLeave={()=>{setMessage('')}}
+                >
                     <td>{reservation.time}</td>
                     <td>{reservation.equipmentName}</td>
                     <td>{reservation.startsAt}</td>
@@ -78,12 +56,9 @@ const StudentReservations = ()=>{
             ))}
             </tbody>
         </table>
-
-        {notif && notif.content && <div className={styles.user_msg}>
-            <h3>{notif.content}</h3>
-            <button onClick={()=>ok_clicked()}>OK</button>
+        {message && <div className={styles.user_msg}>
+            <h3>{message}</h3>
         </div>}
-
         </>
     );
 }

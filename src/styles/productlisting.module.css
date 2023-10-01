@@ -133,7 +133,7 @@ hr {
     padding: 0;
 }
 
-.btnn {
+.user_btn {
     position: relative;
     top: 12px;
     background: #007bff;
@@ -146,6 +146,40 @@ hr {
     cursor: pointer;
     width: 160px;
     height: 30px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.modifier{
+    position: absolute;
+    top: 0.2rem;
+    left: 0;
+    background: #372;
+    font-size: 14px;
+    font-weight: bold;
+    color: #fff;
+    border: #007bff;
+    border-radius: 6px;
+    cursor: pointer;
+    width: 8rem;
+    height: 2rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.supprimer{
+    position: absolute;
+    top: 0.2rem;
+    right: 0;
+    background: #932;
+    font-size: 14px;
+    font-weight: bold;
+    color: #fff;
+    border: #007bff;
+    border-radius: 6px;
+    cursor: pointer;
+    width: 8rem;
+    height: 2rem;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     transition: background-color 0.3s, transform 0.2s;
 }

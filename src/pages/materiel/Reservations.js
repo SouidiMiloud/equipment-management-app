@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import Navbar from "../../components/navbar";
-import styles from "../../styles/reservations.module.css"
+import styles from "../../styles/reservations.module.css";
+
 
 function Reservations(){
 
@@ -8,11 +9,9 @@ function Reservations(){
     const [reservationId, setReservationId] = useState('');
     const [message, setMessage] = useState('');
 
-    useEffect(()=>{
-        getReservations();
-    }, [])
+    const [navbarChanged, setNavbarChanged] = useState(false);
 
-    const getReservations = ()=>{
+    useEffect(()=>{
         fetch('http://localhost:8090/getReservations', {
             headers:{
                 "Content-Type": "application/json",
@@ -25,7 +24,8 @@ function Reservations(){
                 return response.json();
         })
         .then(data=>setReservations(data));
-    }
+
+    }, [navbarChanged])
 
     const confirmer = (id)=>{
         fetch('http://localhost:8090/confirmReservation', {
@@ -36,7 +36,6 @@ function Reservations(){
             method: 'POST',
             body: JSON.stringify({reservationId: id})
         })
-        .then(()=>getReservations());
     }
 
     const annuler = ()=>{
@@ -49,7 +48,6 @@ function Reservations(){
             method: 'POST',
             body: JSON.stringify({reservationId: reservationId, message: message})
         })
-        .then(()=>getReservations());
     }
 
     const deleteReservation = (reservationId)=>{
@@ -61,12 +59,12 @@ function Reservations(){
             method: 'POST',
             body: JSON.stringify({reservationId, reservationId})
         })
-        .then(()=>getReservations());
+        .then(()=>{setNavbarChanged(!navbarChanged)})
     }
 
     return(
     <div>
-        <Navbar/>
+        <Navbar navbarChanged={navbarChanged} setNavbarChanged={setNavbarChanged}/>
         <table className={styles.table}>
             <thead>
                 <tr>

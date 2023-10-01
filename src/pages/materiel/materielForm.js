@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Navbar from "../../components/navbar.js";
 import styles from "../../styles/materialForm.module.css";
 
@@ -7,10 +7,30 @@ function MaterielForm() {
     const [info, setInfo] = useState({
         name: '',
         category: 'MICROCONTROLLEUR',
-        imagePath: '',
         description: ''
     });
     const [categoryOpen, setCategoryOpen] = useState(false);
+    const [productId, setProductId] = useState('');
+    const [file, setFile] = useState(null);
+
+    useEffect(()=>{
+        const params = new URLSearchParams(window.location.search);
+        if(params.has('productId')){
+            const id = params.get('productId');
+            setProductId(id);
+            fetch(`http://localhost:8090/getMaterialInfo?productId=${id}`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${localStorage.getItem('jwt')}`
+                },
+                method: 'GET'
+            })
+            .then(response=>{if(response.status === 200) return response.json();})
+            .then(data=>setInfo(data));
+        }
+        else
+            setProductId('-1');
+    }, [])
 
     const changeInfo = (event)=>{
         const {name, value} = event.target;
@@ -27,15 +47,22 @@ function MaterielForm() {
         setCategoryOpen(false);
     }
 
-    const addEquipment = ()=>{
+    const addEquipment = (event)=>{
 
-        fetch('http://localhost:8090/newEquipment', {
+        event.preventDefault();
+        const formData = new FormData();
+        formData.append("file", file);
+
+        formData.append('name', info.name);
+        formData.append('category', info.category);
+        formData.append('description', info.description);
+
+        fetch(`http://localhost:8090/addEquipment?productId=${productId}`, {
             headers:{
-                "Content-Type": "application/json",
                 Authorization: `Bearer ${localStorage.getItem('jwt')}`
             },
             method: 'POST',
-            body: JSON.stringify(info)
+            body: formData
         })
         .then((response)=>{
             if(response.status === 200)
@@ -46,6 +73,7 @@ function MaterielForm() {
     return (
         <div className={styles.banner}>
             <Navbar />
+            {productId && 
             <div className={styles.container}>
                 
                 <form onSubmit={addEquipment}>
@@ -71,7 +99,7 @@ function MaterielForm() {
                         <div className={styles.inputbox}>
                             <span className={styles.details}> image </span>
 
-                            <input type="text" name='imagePath' value={info.imagePath} onChange={changeInfo} id="image" placeholder='nom + extension' />
+                            <input type="file" name='imagePath' onChange={(e)=>{setFile(e.target.files[0])}} id="image" />
                         </div>
                     
                         <div className={styles.inputbox}>
@@ -82,11 +110,11 @@ function MaterielForm() {
                         
                     </div>
                     
-                    <button type="submit" className={styles.btn} value="Register">ajouter</button>
+                    <button type="submit" className={styles.btn} value="Register">{productId === '-1' ? 'ajouter' : 'modifier'}</button>
                     
 
                 </form>
-            </div>
+            </div>}
 
         </div>
     );

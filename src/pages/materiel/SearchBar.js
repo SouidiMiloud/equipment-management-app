@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styles from "../../styles/searchbar.module.css";
 
-const SearchBar = () => {
+const SearchBar = ({onSearch}) => {
     const [searchTerm, setSearchTerm] = useState("");
 
     const handleChange = (event) => {
@@ -10,7 +10,7 @@ const SearchBar = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        console.log("Search Term:", searchTerm);
+        onSearch(searchTerm);
     };
 
     return (

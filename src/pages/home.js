@@ -4,7 +4,7 @@ import Navbar from "../components/navbar.js";
 
 
 function Home() {
-    
+
     return (
         <div className={styles.banner}>
             <Navbar />

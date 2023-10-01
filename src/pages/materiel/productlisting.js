@@ -3,30 +3,39 @@ import styles from  "../../styles/productlisting.module.css"; // Create a CSS fi
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
-import products from './products.js'; // Adjust the path as needed
-
-import arduino from '../../Assets/images/arduino.jpg'
-import raspberry from '../../Assets/images/raspberry.jpeg'
-import ram from '../../Assets/images/ram.jpg'
-import stm32 from '../../Assets/images/STM32.png'
-import breadboard from '../../Assets/images/breadboard.jpg'
 
 
-const ProductListing = () => {
+const ProductListing = ({searchTerm}) => {
 
     const [filteredProducts, setFilteredProducts] = useState([]);
     const [done, setDone] = useState(false);
-
-    const [selectedCategory, setSelectedCategory] = useState("All");
-
-    const uniqueCategories = ["All", ...new Set(products.map((product) => product.category))];
-
-    const handleCategoryChange = (category) => {
-        setSelectedCategory(category);
-    };
+    const [selectedCategory, setSelectedCategory] = useState('');
+    const categories = ["Tout", "Microcontrolleur", "Capteur", "Memoire"];
+    const [nameAndRole, setNameAndRole] = useState({});
 
     useEffect(()=>{
-        fetch('http://localhost:8090/getMaterials', {
+        fetch('http://localhost:8090/getNameAndRole', {
+            headers:{
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem('jwt')}`
+            },
+            method: 'GET'
+        })
+        .then(response=>{
+            if(response.status === 200)
+                return response.json();
+        })
+        .then(data=>{
+            setNameAndRole(data);
+        });
+
+        setSelectedCategory("Tout");
+        getMeterials("Tout", searchTerm);
+    }, [searchTerm])
+
+    const getMeterials = (category, searchTerm)=>{
+        setSelectedCategory(category);
+        fetch(`http://localhost:8090/getMaterials?category=${category}&searchTerm=${searchTerm}`, {
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${localStorage.getItem('jwt')}`
@@ -47,53 +56,63 @@ const ProductListing = () => {
         .catch(error => {
             alert(error.message);
         });
-    }, [])
+    }
 
     const sendRequest = (materialId)=>{
 
         window.location.href=`/materiel/details?materialId=${materialId}`;
     }
 
-
-    /*const filteredProducts =
-        selectedCategory === "All"
-            ? products
-            : products.filter((product) => product.category === selectedCategory);
-    */
-
+    const removeMaterial = (id)=>{
+        fetch('http://localhost:8090/removeMaterial', {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem('jwt')}`
+            },
+            method: 'POST',
+            body: JSON.stringify({id: id})
+        })
+        .then(response=>{
+            if(response.status === 200)
+                getMeterials(selectedCategory, searchTerm);
+        })
+    }
 
     return (
         <div>
         {done &&
         <div className={styles.productlistingcontainer}>
+           
             <div className={styles.categorynavigation}>
                 <ul>
-                    {uniqueCategories.map((category) => (
+                    {categories.map((category) => (
                         <li
                             key={category}
                             className={selectedCategory === category ? styles.active : ""}
-                            onClick={() => handleCategoryChange(category)}
+                            onClick={() => getMeterials(category, searchTerm)}
                         >
                             {category}
                         </li>
                     ))}
                 </ul>
-            </div>
+            </div> 
+
             <div className={styles.productlist}>
                 {filteredProducts.map((product) => (
                     <div className={styles.productcard} key={product.id}>
+                        
                         {new Date() > new Date(product.availableAt) ?
                         (
-                            <span className={`${styles.availabilitybadge} ${styles.available}`}>disponible</span>
+                            <span className={`${styles.availabilitybadge} ${styles.available}`}>disponible maintenant</span>
                         ) : (
-                                <span className={`${styles.availabilitybadge} ${styles.notavailable}`}>non disponible</span>
+                            <span className={`${styles.availabilitybadge} ${styles.notavailable}`}>
+                                le {new Date(product.availableAt).getDate()}-{new Date(product.availableAt).getMonth() + 1} a
+                                {} {new Date(product.availableAt).getHours()}:{new Date(product.availableAt).getMinutes()}
+                            </span>
                         )}
 
-                        {product.imagePath === 'arduino.jpg' && <img className={styles.img} src={arduino} alt={product.name} />}
-                        {product.imagePath === 'raspberry.jpeg' && <img className={styles.img} src={raspberry} alt={product.name} />}
-                        {product.imagePath === 'ram.jpg' && <img className={styles.img} src={ram} alt={product.name} />}
-                        {product.imagePath === 'STM32.png' && <img className={styles.img} src={stm32} alt={product.name} />}
-                        {product.imagePath === 'breadboard.jpg' && <img className={styles.img} src={breadboard} alt={product.name} />}
+                        
+                        <img className={styles.img} src={`materiel_images/${product.imagePath}`} alt={product.name}/>
 
                         <hr></hr>
                         <div className={styles.det}>
@@ -107,7 +126,13 @@ const ProductListing = () => {
                                 <FontAwesomeIcon icon={faStar} />
                                 <FontAwesomeIcon icon={faStar} />
                             </div>
-                            <button className={styles.btnn} onClick={()=>sendRequest(product.id)} >Réserver maintenant</button>
+                            {nameAndRole.role === 'STUDENT' &&
+                            <button className={styles.user_btn} onClick={()=>sendRequest(product.id)} >Réserver maintenant</button>
+                            }
+                            {nameAndRole.role === 'ADMIN' && <div style={{position: "relative"}}>
+                                <button className={styles.modifier} onClick={()=>window.location.href=`/materiel/new?productId=${product.id}`} >Modifier</button>
+                                <button className={styles.supprimer} onClick={()=>removeMaterial(product.id)} >Supprimer</button>
+                            </div>}
                         </div>
                     </div>
                 ))}

@@ -95,7 +95,7 @@ function Register() {
                         </div>
 
                         <div className={styles.inputbox}>
-                            <span className={styles.details}> niveau </span>
+                            <span className={styles.details}> filière </span>
 
                             <div className={styles.dropdown}>
                                 <button type="button" className={styles.dropbtn} onClick={()=>{setFieldOpen(!fieldOpen)}}>{info.field}</button>

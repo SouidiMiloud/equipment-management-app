@@ -26,7 +26,6 @@ function Login(){
             axios.post('http://localhost:8090/authentication/login', credentials)
             .then((response)=>{
                 if(response.status === 200){
-                    localStorage.setItem('user', response.data.user);
                     localStorage.setItem('jwt', response.data.token);
                     window.location.href='/';
                 }
@@ -37,7 +36,6 @@ function Login(){
         catch(message){
             alert('email ou mot de passe incorrects');
         };
-
     }
 
     return(

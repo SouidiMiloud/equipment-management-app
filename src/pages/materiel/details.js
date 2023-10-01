@@ -1,11 +1,7 @@
 import React, {useEffect, useState} from "react";
 import Navbar from "../../components/navbar.js";
 import styles from "../../styles/details.module.css"
-import arduino from "../../Assets/images/arduino.jpg"
-import raspberry from '../../Assets/images/raspberry.jpeg'
-import ram from '../../Assets/images/ram.jpg'
-import stm32 from '../../Assets/images/STM32.png'
-import breadboard from '../../Assets/images/breadboard.jpg'
+
 
 function Details(){
     
@@ -83,11 +79,7 @@ function Details(){
                 <Navbar/>
                 <div style={{display: "flex"}}>
                     <div className={styles.product_img}>
-                        {materiel.imagePath === 'arduino.jpg' && <img className={styles.image} src={arduino} alt={materiel.name} />}
-                            {materiel.imagePath === 'raspberry.jpeg' && <img className={styles.image} src={raspberry} alt={materiel.name} />}
-                            {materiel.imagePath === 'ram.jpg' && <img className={styles.image} src={ram} alt={materiel.name} />}
-                            {materiel.imagePath === 'STM32.png' && <img className={styles.image} src={stm32} alt={materiel.name} />}
-                            {materiel.imagePath === 'breadboard.jpg' && <img className={styles.image} src={breadboard} alt={materiel.name} />}
+                      <img className={styles.image} src={`/materiel_images/${materiel.imagePath}`} alt="" />    
                     </div>
                     <div className={styles.description}>
                         <h2>{materiel.name}</h2>
