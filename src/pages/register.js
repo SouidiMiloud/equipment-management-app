@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Navbar from "../components/navbar.js";
 import styles from "../styles/register.module.css";
-import axios from 'axios';
+import fetchData from '../config/api.js';
 
 function Register() {
 
@@ -43,20 +43,10 @@ function Register() {
         setFieldOpen(false);
     }
 
-    const addUser = async(e)=>{
+    const addUser = (e)=>{
         e.preventDefault();
-        try{
-            await axios.post('http://localhost:8090/register', info)
-            .then((response)=>{
-                window.location.href='/login';
-            })
-            .catch((error)=>{
-                setErrors(error.response.data);
-            })
-        }
-        catch(error){
-            alert('une erreur est survenue');
-        }
+        fetchData('/authentication/register', 'POST', info)
+        .then(data=>window.location.href='/login');
     }
 
     return (

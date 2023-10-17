@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import styles from "../../styles/materiel.module.css";
+import styles from "../../styles/product.module.css";
 import Navbar from "../../components/navbar.js";
 import SearchBar from "./SearchBar";
-import ProductCards from "./productcard";
 import ProductListing from "./productlisting";
 
 
-function Materials() {
+function Products() {
 
     const [searchTerm, setSearchTerm] = useState('');
 
@@ -19,10 +18,8 @@ function Materials() {
             <SearchBar onSearch = {handleSearch} />
 
             <ProductListing searchTerm = {searchTerm} />
-            <ProductCards />
-            
         </div>
 
     )
 }
-export default Materials;
+export default Products;

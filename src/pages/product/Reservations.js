@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import Navbar from "../../components/navbar";
 import styles from "../../styles/reservations.module.css";
+import fetchData from "../../config/api";
 
 
 function Reservations(){
@@ -12,53 +13,22 @@ function Reservations(){
     const [navbarChanged, setNavbarChanged] = useState(false);
 
     useEffect(()=>{
-        fetch('http://localhost:8090/getReservations', {
-            headers:{
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${localStorage.getItem('jwt')}`
-            },
-            method: 'GET'
-        })
-        .then((response)=>{
-            if(response.status === 200)
-                return response.json();
-        })
+        fetchData('/reservation/getReservations', 'GET', '')
         .then(data=>setReservations(data));
 
     }, [navbarChanged])
 
     const confirmer = (id)=>{
-        fetch('http://localhost:8090/confirmReservation', {
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${localStorage.getItem('jwt')}`
-            },
-            method: 'POST',
-            body: JSON.stringify({reservationId: id})
-        })
+        fetchData('/reservation/confirmReservation', 'POST', {reservationId: id});
     }
 
     const annuler = ()=>{
         setReservationId('');
-        fetch('http://localhost:8090/rejectReservation', {
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${localStorage.getItem('jwt')}`
-            },
-            method: 'POST',
-            body: JSON.stringify({reservationId: reservationId, message: message})
-        })
+        fetchData('/reservation/rejectReservation', 'POST', {reservationId: reservationId, message: message});
     }
 
     const deleteReservation = (reservationId)=>{
-        fetch('http://localhost:8090/deleteReservation', {
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${localStorage.getItem('jwt')}`
-            },
-            method: 'POST',
-            body: JSON.stringify({reservationId, reservationId})
-        })
+        fetchData('/reservation/deleteReservation', 'POST', {reservationId, reservationId})
         .then(()=>{setNavbarChanged(!navbarChanged)})
     }
 
@@ -69,7 +39,7 @@ function Reservations(){
             <thead>
                 <tr>
                     <th>date</th>
-                    <th>materiel</th>
+                    <th>produit</th>
                     <th>étudiant</th>
                     <th>début</th>
                     <th>fin</th>
@@ -81,7 +51,7 @@ function Reservations(){
             {reservations && reservations.map(reservation=>(
                 <tr>
                     <td>{reservation.time}</td>
-                    <td>{reservation.equipmentName}</td>
+                    <td>{reservation.productName}</td>
                     <td>{reservation.userName}</td>
                     <td>{reservation.startsAt}</td>
                     

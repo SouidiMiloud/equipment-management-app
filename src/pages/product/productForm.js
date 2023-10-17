@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Navbar from "../../components/navbar.js";
-import styles from "../../styles/materialForm.module.css";
+import styles from "../../styles/productForm.module.css";
 
-function MaterielForm() {
+function ProductForm() {
 
     const [info, setInfo] = useState({
         name: '',
@@ -18,7 +18,7 @@ function MaterielForm() {
         if(params.has('productId')){
             const id = params.get('productId');
             setProductId(id);
-            fetch(`http://localhost:8090/getMaterialInfo?productId=${id}`, {
+            fetch(`http://localhost:8090/product/getProductInfo?productId=${id}`, {
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${localStorage.getItem('jwt')}`
@@ -57,7 +57,7 @@ function MaterielForm() {
         formData.append('category', info.category);
         formData.append('description', info.description);
 
-        fetch(`http://localhost:8090/addEquipment?productId=${productId}`, {
+        fetch(`http://localhost:8090/product/addProduct?productId=${productId}`, {
             headers:{
                 Authorization: `Bearer ${localStorage.getItem('jwt')}`
             },
@@ -66,7 +66,7 @@ function MaterielForm() {
         })
         .then((response)=>{
             if(response.status === 200)
-                window.location.href='/materiel/new';
+                window.location.href='/product/new';
         })
     }
 
@@ -77,7 +77,7 @@ function MaterielForm() {
             <div className={styles.container}>
                 
                 <form onSubmit={addEquipment}>
-                    <h2> nouveau materiel </h2>
+                    <h2> nouveau produit </h2>
                     <div className={styles.frm}> 
                      
                         <div className={styles.inputbox}>
@@ -120,4 +120,4 @@ function MaterielForm() {
     );
 }
 
-export default MaterielForm;
+export default ProductForm;

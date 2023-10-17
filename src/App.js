@@ -1,17 +1,17 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from './pages/home';
-import Materials from "./pages/materiel/materiel.js"
+import Products from "./pages/product/product.js"
 import Login from './pages/login';
 import Logout from "./pages/logout";
 import About from './pages/about';
-import Details from "./pages/materiel/details";
+import Details from "./pages/product/details";
 import Register from './pages/register';
-import Reservations from "./pages/materiel/Reservations";
-import StudentReservations from "./pages/materiel/studentReservations";
+import Reservations from "./pages/product/Reservations";
+import StudentReservations from "./pages/product/studentReservations";
 
 import Students from "./pages/students";
 import Contact from './pages/contact';
-import MaterielForm from "./pages/materiel/materielForm";
+import ProductForm from "./pages/product/productForm";
 
 import PrivateRoute from "./pages/privateRoute";
 
@@ -33,15 +33,15 @@ function App() {
         </PrivateRoute>
         }/>
 
-        <Route path="/materiel" element={
+        <Route path="/product" element={
           <PrivateRoute>
-            <Materials />
+            <Products />
           </PrivateRoute>
         }/>
 
-        <Route path="/materiel/new" element={
+        <Route path="/product/new" element={
         <PrivateRoute>
-          <MaterielForm/>
+          <ProductForm/>
         </PrivateRoute>
         }/>
         <Route path="/reservations" element={
@@ -49,7 +49,7 @@ function App() {
           <Reservations/>
         </PrivateRoute>
         }/>
-        <Route path="/materiel/details" element={
+        <Route path="/product/details" element={
         <PrivateRoute>
           <Details/>
         </PrivateRoute>

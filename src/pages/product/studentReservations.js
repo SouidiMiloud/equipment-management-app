@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import Navbar from "../../components/navbar";
 import styles from "../../styles/reservations.module.css"
+import fetchData from "../../config/api";
 
 
 const StudentReservations = ()=>{
@@ -9,17 +10,7 @@ const StudentReservations = ()=>{
     const [message, setMessage] = useState('');
 
     useEffect(()=>{
-        fetch(`http://localhost:8090/getUserReservations`, {
-            headers:{
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${localStorage.getItem('jwt')}`
-            },
-            method: 'GET'
-        })
-        .then((response)=>{
-            if(response.status === 200)
-                return response.json();
-        })
+        fetchData('/reservation/getUserReservations', 'GET', '')
         .then(data=>setReservations(data));
 
     }, []);
@@ -31,7 +22,7 @@ const StudentReservations = ()=>{
             <thead>
                 <tr>
                     <th>date</th>
-                    <th>materiel</th>
+                    <th>produit</th>
                     <th>début</th>
                     <th>fin</th>
                     <th>état</th>
@@ -43,7 +34,7 @@ const StudentReservations = ()=>{
                     onMouseLeave={()=>{setMessage('')}}
                 >
                     <td>{reservation.time}</td>
-                    <td>{reservation.equipmentName}</td>
+                    <td>{reservation.productName}</td>
                     <td>{reservation.startsAt}</td>
                     
                     <td>{reservation.endsAt}</td>

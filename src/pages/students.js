@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styles from "../styles/reservations.module.css"
 import Navbar from "../components/navbar";
+import fetchData from "../config/api";
 
 
 const Students = ()=>{
@@ -8,17 +9,7 @@ const Students = ()=>{
     const [students, setStudents] = useState([]);
 
     useEffect(()=>{
-        fetch('http://localhost:8090/getStudents', {
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${localStorage.getItem('jwt')}`
-            },
-            method: 'GET'
-        })
-        .then((response)=>{
-            if(response.status === 200)
-                return response.json();
-        })
+        fetchData('/user/getStudents', 'GET', '')
         .then(data=>setStudents(data));
     }, []);
 

@@ -4,6 +4,7 @@ import styles from  "../../styles/productlisting.module.css"; // Create a CSS fi
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 
+import fetchData from "../../config/api";
 
 const ProductListing = ({searchTerm}) => {
 
@@ -14,43 +15,20 @@ const ProductListing = ({searchTerm}) => {
     const [nameAndRole, setNameAndRole] = useState({});
 
     useEffect(()=>{
-        fetch('http://localhost:8090/getNameAndRole', {
-            headers:{
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${localStorage.getItem('jwt')}`
-            },
-            method: 'GET'
-        })
-        .then(response=>{
-            if(response.status === 200)
-                return response.json();
-        })
-        .then(data=>{
-            setNameAndRole(data);
-        });
+
+        fetchData('/user/getNameAndRole', 'GET', '')
+        .then(data=>setNameAndRole(data));
 
         setSelectedCategory("Tout");
-        getMeterials("Tout", searchTerm);
+        getProducts("Tout", searchTerm);
     }, [searchTerm])
 
-    const getMeterials = (category, searchTerm)=>{
+    const getProducts = (category, searchTerm)=>{
         setSelectedCategory(category);
-        fetch(`http://localhost:8090/getMaterials?category=${category}&searchTerm=${searchTerm}`, {
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${localStorage.getItem('jwt')}`
-            },
-            method: 'GET'
-        })
-        .then(response => {
-            if (response.status === 200) {
-                setDone(true);
-                return response.json();
-            } else {
-            throw new Error('Request failed with status: ' + response.status);
-            }
-        })
+
+        fetchData(`/product/getProducts?category=${category}&searchTerm=${searchTerm}`, 'GET', '')
         .then(data => {
+            setDone(true);
             setFilteredProducts(data);
         })
         .catch(error => {
@@ -58,23 +36,15 @@ const ProductListing = ({searchTerm}) => {
         });
     }
 
-    const sendRequest = (materialId)=>{
+    const sendRequest = (productId)=>{
 
-        window.location.href=`/materiel/details?materialId=${materialId}`;
+        window.location.href=`/product/details?productId=${productId}`;
     }
 
-    const removeMaterial = (id)=>{
-        fetch('http://localhost:8090/removeMaterial', {
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${localStorage.getItem('jwt')}`
-            },
-            method: 'POST',
-            body: JSON.stringify({id: id})
-        })
-        .then(response=>{
-            if(response.status === 200)
-                getMeterials(selectedCategory, searchTerm);
+    const removeProduct = (productId)=>{
+        fetchData('/product/removeProduct', 'POST', {"id": productId})
+        .then(data=>{
+            getProducts(selectedCategory, searchTerm);
         })
     }
 
@@ -89,7 +59,7 @@ const ProductListing = ({searchTerm}) => {
                         <li
                             key={category}
                             className={selectedCategory === category ? styles.active : ""}
-                            onClick={() => getMeterials(category, searchTerm)}
+                            onClick={() => getProducts(category, searchTerm)}
                         >
                             {category}
                         </li>
@@ -112,7 +82,7 @@ const ProductListing = ({searchTerm}) => {
                         )}
 
                         
-                        <img className={styles.img} src={`materiel_images/${product.imagePath}`} alt={product.name}/>
+                        <img className={styles.img} src={`product_images/${product.imagePath}`} alt={product.name}/>
 
                         <hr></hr>
                         <div className={styles.det}>
@@ -130,8 +100,8 @@ const ProductListing = ({searchTerm}) => {
                             <button className={styles.user_btn} onClick={()=>sendRequest(product.id)} >Réserver maintenant</button>
                             }
                             {nameAndRole.role === 'ADMIN' && <div style={{position: "relative"}}>
-                                <button className={styles.modifier} onClick={()=>window.location.href=`/materiel/new?productId=${product.id}`} >Modifier</button>
-                                <button className={styles.supprimer} onClick={()=>removeMaterial(product.id)} >Supprimer</button>
+                                <button className={styles.modifier} onClick={()=>window.location.href=`/product/new?productId=${product.id}`} >Modifier</button>
+                                <button className={styles.supprimer} onClick={()=>removeProduct(product.id)} >Supprimer</button>
                             </div>}
                         </div>
                     </div>

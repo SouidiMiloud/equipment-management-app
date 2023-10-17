@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Navbar from "../components/navbar.js";
 import styles from "../styles/login.module.css";
-import axios from 'axios';
+import fetchData from '../config/api.js';
 
 function Login(){
     
@@ -22,20 +22,12 @@ function Login(){
     const submitForm = (e)=>{
         
         e.preventDefault();
-        try{
-            axios.post('http://localhost:8090/authentication/login', credentials)
-            .then((response)=>{
-                if(response.status === 200){
-                    localStorage.setItem('jwt', response.data.token);
-                    window.location.href='/';
-                }
-            }).catch((message)=>{
-                setErrorMsg(true);
-            });
-        }
-        catch(message){
-            alert('email ou mot de passe incorrects');
-        };
+        fetchData('/authentication/login', 'POST', credentials)
+        .then(data=>{
+            localStorage.setItem('jwt', data.token);
+            window.location.href='/';
+        })
+        .catch(error=>setErrorMsg(true));
     }
 
     return(
