@@ -1,4 +1,4 @@
-package com.example.equipment_manager.equipment;
+package com.example.equipment_manager.reservation;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,9 +10,9 @@ import lombok.NoArgsConstructor;
 public class ReservationsResponse {
 
     private Long id;
-    private Integer equipmentId;
+    private Integer productId;
     private Integer userId;
-    private String equipmentName;
+    private String productName;
     private String userName;
     private String time;
     private String startsAt;

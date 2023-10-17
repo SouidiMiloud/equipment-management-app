@@ -1,4 +1,4 @@
-package com.example.equipment_manager.equipment;
+package com.example.equipment_manager.reservation;
 
 import lombok.Data;
 import javax.persistence.*;
@@ -12,7 +12,7 @@ public class Reservation {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
-    private Integer equipmentId;
+    private Integer productId;
     private Integer userId;
     private LocalDateTime time;
     private LocalDateTime startsAt;
@@ -27,8 +27,8 @@ public class Reservation {
         time = LocalDateTime.now();
     }
 
-    public Reservation(Integer equipmentId, Integer userId, LocalDateTime time, LocalDateTime startsAt, LocalDateTime endsAt, ReservationState reservationState, String message) {
-        this.equipmentId = equipmentId;
+    public Reservation(Integer productId, Integer userId, LocalDateTime time, LocalDateTime startsAt, LocalDateTime endsAt, ReservationState reservationState, String message) {
+        this.productId = productId;
         this.userId = userId;
         this.time = time;
         this.startsAt = startsAt;

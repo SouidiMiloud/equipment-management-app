@@ -1,4 +1,4 @@
-package com.example.equipment_manager.equipment;
+package com.example.equipment_manager.product;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class EquipmentResponse {
+public class ProductResponse {
 
     private String name;
     private Category category;

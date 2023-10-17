@@ -1,6 +1,5 @@
 package com.example.equipment_manager.security;
 
-
 import com.example.equipment_manager.filters.JwtFilter;
 import com.example.equipment_manager.user.UserServiceImpl;
 import lombok.AllArgsConstructor;
@@ -12,12 +11,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
 import javax.servlet.http.HttpServletResponse;
 
 
@@ -33,7 +29,6 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 
         auth.userDetailsService(userDetailsService);
-        //super.configure(auth);
     }
 
     @Override
@@ -45,8 +40,8 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .authenticationEntryPoint((request, response, ex)->{
                     response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ex.getMessage());
                 });
-        http.authorizeRequests().antMatchers("/register", "/wsocket/**").permitAll()
-                .antMatchers("/authentication/login").permitAll()
+        http.authorizeRequests().antMatchers("/wsocket/**").permitAll()
+                .antMatchers("/authentication/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .cors();

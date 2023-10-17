@@ -1,4 +1,4 @@
-package com.example.equipment_manager.equipment;
+package com.example.equipment_manager.reservation;
 
 
 

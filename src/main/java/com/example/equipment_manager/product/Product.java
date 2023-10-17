@@ -1,4 +1,4 @@
-package com.example.equipment_manager.equipment;
+package com.example.equipment_manager.product;
 
 import javax.persistence.*;
 
@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Entity
 @Data
 @NoArgsConstructor
-public class Equipment {
+public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -24,7 +24,7 @@ public class Equipment {
     private LocalDateTime availableAt;
 
 
-    public Equipment(String name, Category category, String imagePath, String description, LocalDateTime availableAt) {
+    public Product(String name, Category category, String imagePath, String description, LocalDateTime availableAt) {
         this.name = name;
         this.category = category;
         this.imagePath = imagePath;
