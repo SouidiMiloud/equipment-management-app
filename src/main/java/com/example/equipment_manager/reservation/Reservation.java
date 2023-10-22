@@ -1,8 +1,11 @@
 package com.example.equipment_manager.reservation;
 
+import com.example.equipment_manager.product.Item;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 
 @Data
@@ -17,6 +20,9 @@ public class Reservation {
     private LocalDateTime time;
     private LocalDateTime startsAt;
     private LocalDateTime endsAt;
+    private Integer items;
+    @ElementCollection
+    private List<Long> itemsIds;
     @Enumerated(EnumType.STRING)
     private ReservationState reservationState;
     private String message;
@@ -27,12 +33,13 @@ public class Reservation {
         time = LocalDateTime.now();
     }
 
-    public Reservation(Integer productId, Integer userId, LocalDateTime time, LocalDateTime startsAt, LocalDateTime endsAt, ReservationState reservationState, String message) {
+    public Reservation(Integer productId, Integer userId, LocalDateTime time, LocalDateTime startsAt, LocalDateTime endsAt, Integer items, ReservationState reservationState, String message) {
         this.productId = productId;
         this.userId = userId;
         this.time = time;
         this.startsAt = startsAt;
         this.endsAt = endsAt;
+        this.items = items;
         this.reservationState = reservationState;
         this.message = message;
     }

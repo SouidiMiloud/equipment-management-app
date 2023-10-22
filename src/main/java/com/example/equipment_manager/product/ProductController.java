@@ -26,9 +26,9 @@ public class ProductController {
 
     @PostMapping("/addProduct")
     public ResponseEntity<String> newProduct(@RequestParam("file") MultipartFile file, @RequestParam("name") String name, @RequestParam("description") String desc,
-                                               @RequestParam("category") Category categ, @RequestParam("productId") String productId) throws IOException {
+                                               @RequestParam("stock") Integer stock, @RequestParam("category") Category categ, @RequestParam("productId") String productId) throws IOException {
 
-        return productService.saveProduct(name, categ, desc, file, productId);
+        return productService.saveProduct(name, categ, desc, stock, file, productId);
     }
 
     @PostMapping("/removeProduct")
@@ -46,6 +46,6 @@ public class ProductController {
     @GetMapping("/details")
     public ResponseEntity<ProductResponse> details(@RequestParam Integer id){
 
-        return productService.availableAt(id);
+        return productService.productInfo(id);
     }
 }

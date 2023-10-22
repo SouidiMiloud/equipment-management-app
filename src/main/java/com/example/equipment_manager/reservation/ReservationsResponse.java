@@ -18,6 +18,7 @@ public class ReservationsResponse {
     private String startsAt;
     private String endsAt;
     private String reservationState;
+    private Integer items;
     private String message;
 
 }

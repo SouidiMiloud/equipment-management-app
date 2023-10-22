@@ -1,5 +1,7 @@
 package com.example.equipment_manager.reservation;
 
+import com.example.equipment_manager.product.Item;
+import com.example.equipment_manager.product.ItemRepo;
 import com.example.equipment_manager.product.Product;
 import com.example.equipment_manager.product.ProductRepo;
 import com.example.equipment_manager.user.LaboUser;
@@ -11,9 +13,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @AllArgsConstructor
@@ -22,6 +22,7 @@ public class ReservationService {
     private ReservationRepo reservationRepo;
     private UserRepo userRepo;
     private ProductRepo productRepo;
+    private ItemRepo itemRepo;
     private SimpMessagingTemplate messagingTemplate;
 
     public ResponseEntity<String> saveReservation(LaboUser user, Reservation reservation) {
@@ -30,26 +31,36 @@ public class ReservationService {
             return ResponseEntity.ok().body("veillez choisir des dates valides");
 
         Product product = productRepo.findById(reservation.getProductId()).orElseThrow();
-        if(!isAvailable(reservation))
+        List<Long> reservedItemsList = reservedItems(reservation);
+        if(product.getStock() - reservedItemsList.size() < reservation.getItems())
             return ResponseEntity.ok().body(product.getName() + " est non disponible pendant la durée spécifiée");
 
-        productRepo.save(product);
         reservation.setUserId(user.getId());
+        List<Long> itemsIds = new ArrayList<>();
+        for(int i=0; i != product.getStock() && itemsIds.size() < reservation.getItems(); i++)
+            if(!reservedItemsList.contains(product.getItems().get(i).getId()))
+                itemsIds.add(product.getItems().get(i).getId());
+        reservation.setItemsIds(itemsIds);
+        reservation.setItems(itemsIds.size());
         reservationRepo.save(reservation);
 
         messagingTemplate.convertAndSend("/topic/reservations", reservationRepo.getUncheckedReservationsNum(ReservationState.UNCHECKED));
         return ResponseEntity.ok().body("votre demande a bien été enregistrée");
     }
-    private boolean isAvailable(Reservation reservation){
+    private List<Long> reservedItems(Reservation reservation){
+        Set<Long> reservedItems = new HashSet<>();
         List<Reservation> reservations = reservationRepo.getReservations(ReservationState.CONFIRMED, reservation.getProductId());
         for(int i=0; i != reservations.size(); i++){
             if(!reservations.get(i).getReservationState().equals(ReservationState.CONFIRMED))
                 continue;
             if((reservation.getStartsAt().isAfter(reservations.get(i).getStartsAt()) && reservation.getStartsAt().isBefore(reservations.get(i).getEndsAt()))
-                    || (reservation.getEndsAt().isAfter(reservations.get(i).getStartsAt()) && reservation.getEndsAt().isBefore(reservations.get(i).getEndsAt())))
-                return false;
+                    || (reservation.getEndsAt().isAfter(reservations.get(i).getStartsAt()) && reservation.getEndsAt().isBefore(reservations.get(i).getEndsAt()))){
+                for(Long id : reservations.get(i).getItemsIds())
+                    reservedItems.add(id);
+            }
+
         }
-        return true;
+        return reservedItems.stream().toList();
     }
 
     public ResponseEntity<List<ReservationsResponse>> getReservations() {
@@ -75,6 +86,7 @@ public class ReservationService {
         reservation.setTime(r.getTime().format(formatter));
         reservation.setStartsAt(r.getStartsAt().format(formatter));
         reservation.setEndsAt(r.getEndsAt().format(formatter));
+        reservation.setItems(r.getItems());
         reservation.setReservationState(r.getReservationState().toString());
         reservation.setMessage(r.getMessage());
         return reservation;
@@ -84,8 +96,20 @@ public class ReservationService {
 
         Reservation reservation = reservationRepo.findById(reservationId).orElseThrow();
         reservation.setReservationState(ReservationState.CONFIRMED);
+        for(Long itemId : reservation.getItemsIds()){
+            Item item = itemRepo.findById(itemId).get();
+            if(item.getAvailableAt().isBefore(reservation.getEndsAt())) {
+                item.setAvailableAt(reservation.getEndsAt());
+                itemRepo.save(item);
+            }
+        }
         Product product = productRepo.findById(reservation.getProductId()).orElseThrow();
-        product.setAvailableAt(reservation.getEndsAt());
+        List<Item> items = itemRepo.findAllByProduct(product);
+        int availableItems = 0;
+        for(Item item : items)
+            if(item.getAvailableAt().isBefore(LocalDateTime.now()))
+                availableItems++;
+        product.setAvailableItems(availableItems);
         productRepo.save(product);
 
         reservationRepo.save(reservation);
