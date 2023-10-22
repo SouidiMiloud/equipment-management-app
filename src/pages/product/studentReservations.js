@@ -25,6 +25,7 @@ const StudentReservations = ()=>{
                     <th>produit</th>
                     <th>début</th>
                     <th>fin</th>
+                    <th>quantité</th>
                     <th>état</th>
                 </tr>
             </thead>
@@ -38,6 +39,7 @@ const StudentReservations = ()=>{
                     <td>{reservation.startsAt}</td>
                     
                     <td>{reservation.endsAt}</td>
+                    <td>{reservation.items}</td>
                     {reservation.reservationState === 'UNCHECKED' && <td className={styles.enAttente}>EN ATTENTE</td>}
                     
                     {reservation.reservationState === 'CONFIRMED' &&<td className={styles.confirmed}>CONFIRMÉ</td>}

@@ -13,7 +13,8 @@ function Details(){
         productId:'',
         userId: '',
         startsAt: '',
-        endsAt: ''
+        endsAt: '',
+        items: ''
     });
 
     useEffect(()=>{
@@ -42,6 +43,8 @@ function Details(){
     }
 
     const reserve = ()=>{
+        if(info.items <= 0)
+            return;
         fetchData('/reservation/reservation', 'POST', info)
         .then(text=>alert(text));
     }
@@ -57,8 +60,8 @@ function Details(){
                     </div>
                     <div className={styles.description}>
                         <h2>{product.name}</h2>
-                        <div className={styles.text_desc}></div>
-                        <h3 style={{color: "green"}}>{product.message}</h3>
+                        <div className={styles.text_desc}>{product.description}</div>
+                        <h3 style={{color: 'green'}}>{product.message}</h3>
                         <div className={styles.form_div}>
                             <label className={styles.label}>date de prise</label>
                             <input type="datetime-local" name="startsAt" value={info.startsAt} onChange={changeInput} className={styles.reserv_date} placeholder="date de prise"/>
@@ -66,6 +69,10 @@ function Details(){
                         <div className={styles.form_div}>
                             <label className={styles.label}>date de remise</label>
                             <input type="datetime-local" name="endsAt" value={info.endsAt} onChange={changeInput} className={styles.reserv_date} placeholder="date de remise"/>
+                        </div>
+                        <div className={styles.form_div}>
+                            <label className={styles.label}>quantité</label>
+                            <input type="number" name="items" value={info.items} onChange={changeInput} className={styles.reserv_date} placeholder="nombre d'entités" style={{padding: "0 0.5rem"}}/>
                         </div>
                         <button className={styles.form_btn} onClick={reserve}>reserver</button>
                     </div>

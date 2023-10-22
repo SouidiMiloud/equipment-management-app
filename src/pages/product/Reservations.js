@@ -43,6 +43,7 @@ function Reservations(){
                     <th>étudiant</th>
                     <th>début</th>
                     <th>fin</th>
+                    <th>quantité</th>
                     <th></th>
                     <th></th>
                 </tr>
@@ -56,6 +57,7 @@ function Reservations(){
                     <td>{reservation.startsAt}</td>
                     
                     <td>{reservation.endsAt}</td>
+                    <td>{reservation.items}</td>
                     {reservation.reservationState === 'UNCHECKED' &&
                     <td><button className={styles.btn_confirmer} onClick={()=>confirmer(reservation.id)}>confirmer</button></td>}
                     {reservation.reservationState === 'UNCHECKED' &&

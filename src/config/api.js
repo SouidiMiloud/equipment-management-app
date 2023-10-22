@@ -3,12 +3,13 @@ function fetchData(url, requestMethod, requestBody){
     const info = {
         headers:{
             "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem('jwt')}`
         },
         method: requestMethod
     }
     if(requestBody !== '')
         info.body = JSON.stringify(requestBody);
+    if(localStorage.getItem('jwt'))
+        info.headers.Authorization = `Bearer ${localStorage.getItem('jwt')}`;
 
     return fetch(`http://localhost:8090${url}`, info)
     .then(response=>{

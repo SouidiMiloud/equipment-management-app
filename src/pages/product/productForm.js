@@ -7,7 +7,8 @@ function ProductForm() {
     const [info, setInfo] = useState({
         name: '',
         category: 'MICROCONTROLLEUR',
-        description: ''
+        description: '',
+        stock: ''
     });
     const [categoryOpen, setCategoryOpen] = useState(false);
     const [productId, setProductId] = useState('');
@@ -50,13 +51,14 @@ function ProductForm() {
     const addEquipment = (event)=>{
 
         event.preventDefault();
+        if(info.stock < 0) return;
         const formData = new FormData();
         formData.append("file", file);
 
         formData.append('name', info.name);
         formData.append('category', info.category);
         formData.append('description', info.description);
-
+        formData.append('stock', info.stock);
         fetch(`http://localhost:8090/product/addProduct?productId=${productId}`, {
             headers:{
                 Authorization: `Bearer ${localStorage.getItem('jwt')}`
@@ -97,9 +99,8 @@ function ProductForm() {
                             </div>
                         </div>
                         <div className={styles.inputbox}>
-                            <span className={styles.details}> image </span>
-
-                            <input type="file" name='imagePath' onChange={(e)=>{setFile(e.target.files[0])}} id="image" />
+                            <span className={styles.details}> quantité </span>
+                            <input type="number" name='stock' value={info.stock} onChange={changeInfo} id="stock" placeholder="tapez le la quantité" />
                         </div>
                     
                         <div className={styles.inputbox}>
@@ -107,12 +108,14 @@ function ProductForm() {
 
                             <input type="text" name='description' value={info.description} onChange={changeInfo} id="description" placeholder="ajoutez une description" />
                         </div>
+                        <div className={styles.inputbox}>
+                            <span className={styles.details}> image </span>
+
+                            <input type="file" name='imagePath' onChange={(e)=>{setFile(e.target.files[0])}} id="image" />
+                        </div>
                         
                     </div>
-                    
                     <button type="submit" className={styles.btn} value="Register">{productId === '-1' ? 'ajouter' : 'modifier'}</button>
-                    
-
                 </form>
             </div>}
 

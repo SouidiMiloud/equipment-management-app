@@ -71,16 +71,9 @@ const ProductListing = ({searchTerm}) => {
                 {filteredProducts.map((product) => (
                     <div className={styles.productcard} key={product.id}>
                         
-                        {new Date() > new Date(product.availableAt) ?
-                        (
-                            <span className={`${styles.availabilitybadge} ${styles.available}`}>disponible maintenant</span>
-                        ) : (
-                            <span className={`${styles.availabilitybadge} ${styles.notavailable}`}>
-                                le {new Date(product.availableAt).getDate()}-{new Date(product.availableAt).getMonth() + 1} a
-                                {} {new Date(product.availableAt).getHours()}:{new Date(product.availableAt).getMinutes()}
-                            </span>
-                        )}
-
+                        <span className={`${styles.availabilitybadge} ${styles.available}`} style={{backgroundColor :`${product.availableItems === 0 ? 'red' : ''}`}}>
+                            {`${product.availableItems}/${product.stock} disponibles`}
+                        </span>
                         
                         <img className={styles.img} src={`product_images/${product.imagePath}`} alt={product.name}/>
 
